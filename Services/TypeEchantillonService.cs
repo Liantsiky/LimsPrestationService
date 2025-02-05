@@ -38,9 +38,8 @@ public class TypeEchantillonService : ITypeEchantillonService
     {
          _dbContext.TypeEchantillons.Add(typeEchantillon);
         await _dbContext.SaveChangesAsync();
-        TypeEchantillon result = await _dbContext.TypeEchantillons.OrderBy(p => p.IdTypeEchantillon).LastAsync();
-
-        return result;
+       
+        return await this.GetTypeEchantillon(typeEchantillon.IdTypeEchantillon);
     }
 
     public async Task<TypeEchantillon> GetTypeEchantillon(int id)

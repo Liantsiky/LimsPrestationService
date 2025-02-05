@@ -58,7 +58,8 @@ public class TypeEchantillonController : ControllerBase
     public async Task<ActionResult<ApiResponse>> CreateTypeEchantillon([FromBody] TypeEchantillon typeEchantillon)
     {
         TypeEchantillon result = await _typeEchantillonService.CreateTypeEchantillon(typeEchantillon);
-        return Ok(new ApiResponse
+        return 
+        Ok(new ApiResponse
         {
             Data = result,
             IsSuccess = true,
@@ -76,7 +77,7 @@ public class TypeEchantillonController : ControllerBase
             return NotFound(new ApiResponse
             {
                 IsSuccess = false,
-                Message = $"Type de travail avec l'id {id} n'existe pas.",
+                Message = $"Type d'echantillon avec l'id {id} n'existe pas.",
                 StatusCode = 404
             });
         }
@@ -84,7 +85,7 @@ public class TypeEchantillonController : ControllerBase
         {
             Data = typeEchantillon,
             IsSuccess = true,
-            Message = "Type de travail récupéré avec succès.",
+            Message = "Type d'echantillon récupéré avec succès.",
             StatusCode = 200
         });
     }
@@ -102,7 +103,7 @@ public class TypeEchantillonController : ControllerBase
         {
             Data = result,
             IsSuccess = true,
-            Message = "Type de travail mis à jour avec succès.",
+            Message = "Type d'echantillon mis à jour avec succès.",
             StatusCode = 200
         });
     }
