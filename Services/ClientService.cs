@@ -45,7 +45,9 @@ public class ClientService : IClientService
 
     public async Task<List<Client>> GetClients()
     {
-        List<Client> clients = await _dbContext.Clients.ToListAsync();
+        List<Client> clients = await _dbContext.Clients
+        .OrderByDescending(c => c.IdClient)
+        .ToListAsync();
         if(clients == null)
         {
             throw new ArgumentException("Aucun client trouvé");

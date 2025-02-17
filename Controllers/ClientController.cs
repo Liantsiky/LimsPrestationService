@@ -67,7 +67,7 @@ public class ClientController : Controller
         {
             return BadRequest(new ApiResponse
             {
-                Data = e.Data,
+                Data = null,
                 ViewBag = null,
                 IsSuccess = false,
                 Message = e.Message,
