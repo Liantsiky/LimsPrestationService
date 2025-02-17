@@ -1,6 +1,7 @@
 using LimsPrestationService.Data;
 using LimsPrestationService.Models;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace LimsPrestationService.Services;
 
@@ -15,9 +16,21 @@ public class ClientService : IClientService
 
     public async Task<Client> CreateClient(Client client)
     {
-        _dbContext.Clients.Add(client);
-        await _dbContext.SaveChangesAsync();
-        return await GetClient(client.IdClient);
+        try
+        {
+            _dbContext.Clients.Add(client);
+            await _dbContext.SaveChangesAsync();
+            return await GetClient(client.IdClient);
+        }catch(DbUpdateException ex)
+        {
+            if(ex.InnerException is MySqlException mysqlEx && mysqlEx.Number == 1062)
+            {
+                throw new ArgumentException(
+                    $"Un client avec les mêmes identifiants (email : '{client.Email}', cin : '{client.Cin}', passeport : '{client.Passeport}', contact : '{client.Contact})' existe déjà."
+                );
+            }
+            throw;
+        }
     }
 
     public async Task<Client> GetClient(int id)
