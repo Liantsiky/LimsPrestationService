@@ -50,17 +50,30 @@ public class ClientController : Controller
     [HttpPost]
     public async Task<ActionResult<ApiResponse>> CreateClient([FromBody] Client client)
     {
-        Client result = await _clientService.CreateClient(client);
-        return Ok(
-            new ApiResponse
+        try
+        {
+            Client result = await _clientService.CreateClient(client);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Client created successfully.",
+                    StatusCode = 201
+                }
+            );
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
             {
-                Data = result,
+                Data = e.Data,
                 ViewBag = null,
-                IsSuccess = true,
-                Message = "Client created successfully.",
-                StatusCode = 201
-            }
-        );
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
     }
 
     [HttpPut("{id}")]

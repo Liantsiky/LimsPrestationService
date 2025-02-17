@@ -1,9 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace LimsPrestationService.Models;
 
 [Table("Client")]
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(Cin), IsUnique = true)]
+[Index(nameof(Passeport), IsUnique = true)]
+[Index(nameof(Contact), IsUnique = true)]
 public class Client
 {
     [Key]
