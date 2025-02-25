@@ -1,0 +1,60 @@
+using LimsPrestationService.Models;
+using LimsPrestationService.Services;
+using LimsUtils.Api;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LimsPrestationService.Controllers;
+
+[ApiController]
+[Route("/api/prestation")]
+public class PrestationController : Controller
+{
+    private readonly IPrestationService _prestationService;
+    public PrestationController(IPrestationService prestationService)
+    {
+        _prestationService = prestationService;
+    }
+
+    [HttpGet("transmissible")]
+    public async Task<ActionResult<ApiResponse>> GetPrestationsTransmissibles()
+    {
+        List<Prestation> prestations = await _prestationService.GetPrestationsTransmissible();
+        return Ok(
+            new ApiResponse
+            {
+                Data = prestations,
+                ViewBag = null,
+                IsSuccess = true,
+                Message = "Prestations transmissibles retrieved successfully.",
+                StatusCode = 200
+            });
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Prestation>> GetPrestation(int id)
+    {
+        try
+        {
+            Prestation prestation = await _prestationService.GetPrestation(id);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = prestation,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Prestation retrieved successfully.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
+}

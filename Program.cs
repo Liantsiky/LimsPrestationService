@@ -18,6 +18,7 @@ builder.Services.AddDbContext<PrestationServiceContext>(options =>
 builder.Services.AddScoped<ITypeEchantillonService, TypeEchantillonService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IEtatPrestationService, EtatPrestationService>();
+builder.Services.AddScoped<IPrestationService, PrestationService>();
 
 builder.Services.AddControllers();
 
