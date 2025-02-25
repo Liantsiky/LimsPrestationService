@@ -15,7 +15,6 @@ public class PrestationServiceContext : DbContext
             .HasIndex(c => new { c.Cin, c.Contact, c.Email, c.Passeport })
             .IsUnique(true);
     }
-    public DbSet<TypeEchantillon> TypeEchantillons { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<EtatPrestation> EtatPrestations { get; set; }
 }

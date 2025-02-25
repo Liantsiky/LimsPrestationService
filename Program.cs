@@ -15,7 +15,6 @@ builder.Services.AddDbContext<PrestationServiceContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 39)) // Use your MySQL version
     ));
 
-builder.Services.AddScoped<ITypeEchantillonService, TypeEchantillonService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IEtatPrestationService, EtatPrestationService>();
 
