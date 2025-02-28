@@ -15,10 +15,10 @@ public class PrestationController : Controller
         _prestationService = prestationService;
     }
 
-    [HttpGet("transmissible")]
-    public async Task<ActionResult<ApiResponse>> GetPrestationsTransmissibles()
+    [HttpGet]
+    public async Task<ActionResult<ApiResponse>> GetPrestations()
     {
-        List<Prestation> prestations = await _prestationService.GetPrestationsTransmissible();
+        VPrestationEtatDecompte[] prestations = await _prestationService.GetPrestations();
         return Ok(
             new ApiResponse
             {
