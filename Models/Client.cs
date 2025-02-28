@@ -15,17 +15,17 @@ public class Client
     [Column("id_client")]
     public int IdClient { get; set; }
     [Column("nom")]
-    public string Nom { get; set; }
+    public required string Nom { get; set; }
     [Column("adresse")]
-    public string Adresse { get; set; }
+    public required string Adresse { get; set; }
     [Column("cin")]
     public string? Cin { get; set; }
     [Column("passeport")]
     public string? Passeport { get; set; }
     [Column("contact")]
-    public string Contact { get; set; }
+    public required string Contact { get; set; }
     [Column("email")]
-    public string Email { get; set; }
+    public required string Email { get; set; }
     [Column("fax")]
     public string? Fax { get; set; }
     [Column("isInterne")]

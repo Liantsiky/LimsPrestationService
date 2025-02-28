@@ -27,24 +27,10 @@ public class PrestationService : IPrestationService
         return prestation;
     }
 
-    public async Task<List<Prestation>> GetPrestationsTransmissible()
+    public async Task<VPrestationEtatDecompte[]> GetPrestations()
     {
-        List<Prestation> prestations = await _dbContext.Prestations
-        .Where(p => p.IdEtatPrestation == 1)
-        .Include(p => p.EtatPrestation)
-        .Include(p => p.Client)
-        .ToListAsync();
-
-        return prestations;
-    }
-
-    public async Task<List<Prestation>> GetPrestationsParAnnee(string annee)
-    {
-        List<Prestation> prestations = await _dbContext.Prestations
-        .Where(p => p.DateCloture.Value.Year.ToString() == annee)
-        .Include(p => p.EtatPrestation)
-        .Include(p => p.Client)
-        .ToListAsync();
+        VPrestationEtatDecompte[] prestations = await _dbContext.VPrestationEtatDecomptes
+        .ToArrayAsync();
 
         return prestations;
     }

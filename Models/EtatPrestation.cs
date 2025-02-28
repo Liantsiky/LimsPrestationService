@@ -12,5 +12,5 @@ public class EtatPrestation
     [Column("niveau")]
     public int Niveau { get; set; }
     [Column("designation")]
-    public string Designation { get; set; }
+    public required string Designation { get; set; }
 }
