@@ -14,9 +14,13 @@ public class VPrestationEtatDecompte
     [Column("reference")]
     public required string Reference { get; set; }
     [Column("montant")]
-    public required double Montant { get; set; }
+    public required decimal Montant { get; set; }
     [Column("remise")]
     public required double Remise { get; set; }
     [Column("montant_total")]
-    public required double MontantTotal { get; set; }
+    public required decimal MontantTotal { get; set; }
+    [Column("id_etat_prestation")]
+    public int IdEtatPrestation { get; set; }
+    [Column("designation_etat")]
+    public required string DesignationEtat { get; set; }
 }

@@ -18,6 +18,7 @@ public class PrestationService : IPrestationService
             .Where(p => p.IdPrestation == id)
             .Include(p => p.EtatPrestation)
             .Include(p => p.Client)
+            .Include(p => p.PrestationDetails)
             .FirstOrDefaultAsync();
         if(prestation == null)
         {

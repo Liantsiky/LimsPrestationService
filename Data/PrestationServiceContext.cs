@@ -16,9 +16,15 @@ public class PrestationServiceContext : DbContext
             .IsUnique(true);
         
         modelBuilder.Entity<VPrestationEtatDecompte>().ToView("v_prestation_etat_decompte");
+        modelBuilder.Entity<VPrestationDetails>().ToView("v_prestation_details");
+
+        modelBuilder.Entity<Prestation>()
+            .HasMany(p => p.PrestationDetails)
+            .WithOne(pd => pd.Prestation);
     }
     public DbSet<Client> Clients { get; set; }
     public DbSet<EtatPrestation> EtatPrestations { get; set; }
     public DbSet<Prestation> Prestations { get; set; }
     public DbSet<VPrestationEtatDecompte> VPrestationEtatDecomptes { get; set; }
+    public DbSet<VPrestationDetails> VPrestationDetails { get; set; }
 }
