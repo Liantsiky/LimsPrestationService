@@ -16,7 +16,7 @@ public class Prestation
     [Column("date_cloture")]
     public DateOnly? DateCloture { get; set; }
     [Column("id_etat_prestation")]
-    public int IdEtatPrestation { get; set; }
+    public int IdEtatPrestation { get; set; } = 1;
     [ForeignKey("IdEtatPrestation")]
     public EtatPrestation? EtatPrestation { get; set; }
     [Column("id_client")]
@@ -24,7 +24,7 @@ public class Prestation
     [ForeignKey("IdClient")]
     public Client? Client { get; set; }
     [Column("statut_paiement")]
-    public int StatutPaiement { get; set; }
+    public int StatutPaiement { get; set; } = 1;
 
     public ICollection<VPrestationDetails> PrestationDetails { get; set; } = new List<VPrestationDetails>();
     
