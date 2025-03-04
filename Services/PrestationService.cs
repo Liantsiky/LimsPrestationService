@@ -51,17 +51,29 @@ public class PrestationService : IPrestationService
             _dbContext.Prestations.Add(prestation);
             _dbContext.SaveChanges();
 
-
+            Dictionary<string,Echantillon> echantillons = new Dictionary<string,Echantillon>();
             foreach (KeyValuePair<string, EchantillonDto> echantillonDto in prestationDto.Echantillons)
             {
                 Echantillon echantillon = _echantillonService.FromDtotoEchantillon(echantillonDto.Key,echantillonDto.Value,prestation.IdPrestation);
-                Console.Write(echantillon);
                 _dbContext.Echantillons.Add(echantillon);
-                echantillonDto.Value.IdEchantillon = echantillon.IdPrestation;
-                 _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
+                echantillons.Add(echantillonDto.Key, echantillon);
             }
-            // _dbContext.SaveChanges();
-
+            
+            foreach (KeyValuePair<string,List<int>> travaux in prestationDto.Travaux)
+            {
+                Echantillon echantillon = echantillons[travaux.Key];
+                foreach (int idTypeTravaux in travaux.Value)
+                {
+                    Travail travail = new Travail
+                        {
+                            IdTypeTravaux = idTypeTravaux,
+                            IdEchantillon = echantillon.IdEchantillon
+                        };
+                    _dbContext.Travails.Add(travail);
+                    _dbContext.SaveChanges();
+                }
+            }
             transaction.Commit();
 
             return this.GetPrestation(prestation.IdPrestation).Result;

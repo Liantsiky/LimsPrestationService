@@ -9,7 +9,7 @@ public class EchantillonService : IEchantillonService
     {
         Echantillon echantillon = new Echantillon
         {
-            Reference = "ECH" + Guid.NewGuid().ToString(),
+            Reference = "ECH" + Guid.NewGuid().ToString(), //TODO : creer la reference 
             ReferenceClient = refClient,
             Note = echantillonDto.Note,
             Provenance = echantillonDto.Provenance,

@@ -30,4 +30,5 @@ public class PrestationServiceContext : DbContext
     public DbSet<VPrestationDetails> VPrestationDetails { get; set; }
     public DbSet<Echantillon> Echantillons { get; set; }
     public DbSet<FicheTravailSequence> FicheTravailSequences { get; set; }
+    public DbSet<Travail> Travails { get; set; }
 }
