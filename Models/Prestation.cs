@@ -12,9 +12,9 @@ public class Prestation
     [Column("reference_fiche_travail")]
     public required string ReferenceFicheTravail { get; set; }
     [Column("date_prestation")]
-    public required DateTime DatePrestation { get; set; }
+    public required DateOnly DatePrestation { get; set; }
     [Column("date_cloture")]
-    public DateTime? DateCloture { get; set; }
+    public DateOnly? DateCloture { get; set; }
     [Column("id_etat_prestation")]
     public int IdEtatPrestation { get; set; }
     [ForeignKey("IdEtatPrestation")]

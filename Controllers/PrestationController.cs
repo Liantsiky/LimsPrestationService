@@ -1,3 +1,4 @@
+using LimsPrestationService.Dto;
 using LimsPrestationService.Models;
 using LimsPrestationService.Services;
 using LimsUtils.Api;
@@ -57,4 +58,35 @@ public class PrestationController : Controller
             });
         }
     }
+    [HttpPost]
+    public ActionResult<Prestation> CreatePrestation([FromBody] PrestationDto prestationDto)
+    {
+        try
+        {
+            Prestation result = _prestationService.CreatePrestation(prestationDto);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Prestation cree avec succes",
+                    StatusCode = 201
+                }
+            );
+        }catch(Exception e)
+        {
+            return BadRequest(
+                new ApiResponse
+                {
+                    Data = null,
+                    ViewBag = null,
+                    IsSuccess = false,
+                    Message = e.Message,
+                    StatusCode = 400
+                });
+        }
+    }
+    
+
 }

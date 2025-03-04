@@ -29,7 +29,7 @@ public class Client
     [Column("fax")]
     public string? Fax { get; set; }
     [Column("isInterne")]
-    public int IsInterne { get; set; }
+    public required int IsInterne { get; set; }
     [Column("ref_contrat")]
     public string? RefContrat { get; set; }
     [Column("nifstat")]

@@ -1,4 +1,5 @@
 using LimsPrestationService.Models;
+using LimsPrestationService.Sequences;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -27,4 +28,6 @@ public class PrestationServiceContext : DbContext
     public DbSet<Prestation> Prestations { get; set; }
     public DbSet<VPrestationEtatDecompte> VPrestationEtatDecomptes { get; set; }
     public DbSet<VPrestationDetails> VPrestationDetails { get; set; }
+    public DbSet<Echantillon> Echantillons { get; set; }
+    public DbSet<FicheTravailSequence> FicheTravailSequences { get; set; }
 }
