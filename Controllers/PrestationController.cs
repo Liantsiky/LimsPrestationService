@@ -87,6 +87,12 @@ public class PrestationController : Controller
                 });
         }
     }
-    
 
+    [HttpPost("etat/decompte/{id}")]
+    public async Task<IActionResult> EtatDeDecompteToPdf(int id)
+    {
+        byte[] content = await _prestationService.EtatDeDecompteToPdf(id);
+        return File(content, "application/pdf", $"EtatDeDecompte_{id}.pdf");
+    }
+    
 }
