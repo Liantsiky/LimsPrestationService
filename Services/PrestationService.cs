@@ -50,10 +50,12 @@ public class PrestationService : IPrestationService
         using var transaction =  _dbContext.Database.BeginTransaction();
         try
         {
+            //insert prestation
             Prestation prestation = this.FromDtoToPrestation(prestationDto);
             _dbContext.Prestations.Add(prestation);
             _dbContext.SaveChanges();
 
+            //insert echantillons
             Dictionary<string,Echantillon> echantillons = new Dictionary<string,Echantillon>();
             foreach (KeyValuePair<string, EchantillonDto> echantillonDto in prestationDto.Echantillons)
             {
@@ -63,6 +65,7 @@ public class PrestationService : IPrestationService
                 echantillons.Add(echantillonDto.Key, echantillon);
             }
             
+            //insert travaux
             foreach (KeyValuePair<string,List<int>> travaux in prestationDto.Travaux)
             {
                 Echantillon echantillon = echantillons[travaux.Key];
@@ -71,12 +74,24 @@ public class PrestationService : IPrestationService
                     Travail travail = new Travail
                         {
                             IdTypeTravaux = idTypeTravaux,
-                            IdEchantillon = echantillon.IdEchantillon
+                            IdEchantillon = echantillon.IdEchantillon //TODO : control that we can do this type of travaux with this type of echantillon
                         };
                     _dbContext.Travails.Add(travail);
                     _dbContext.SaveChanges();
+                    //TODO : Add a Etat_decompte obeject and insert it (need it for the trigger the Etat Decompte - Id_prestation)
                 }
             }
+
+            //insert Etat Decompte
+            EtatDecompte etatDecompte = new EtatDecompte
+                {
+                    IdPrestation = prestation.IdPrestation,
+                    Reference = prestation.ReferenceFicheTravail,
+                    Remise = prestationDto.Remise,
+                    DateEtatDecompte = prestationDto.DatePrestation
+                };
+            _dbContext.EtatDecomptes.Add(etatDecompte);
+            _dbContext.SaveChanges();
             transaction.Commit();
 
             return this.GetPrestation(prestation.IdPrestation).Result;

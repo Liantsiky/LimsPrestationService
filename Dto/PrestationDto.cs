@@ -7,6 +7,8 @@ public class PrestationDto
     public DateOnly DatePrestation { get; set; }
     [JsonPropertyName("idClient")]
     public int IdClient { get; set; }
+    [JsonPropertyName("remise")]
+    public double Remise {get; set;}
     [JsonPropertyName("echantillons")]
     public Dictionary<string,EchantillonDto> Echantillons {get; set;} = new Dictionary<string,EchantillonDto>();
     [JsonPropertyName("travaux")]
