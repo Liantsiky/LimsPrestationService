@@ -10,11 +10,14 @@ public class PrestationService : IPrestationService
     private readonly PrestationServiceContext _dbContext;
     private readonly IEchantillonService _echantillonService;
     private readonly IFicheTravailSequenceService _ficheTravailSequenceService;
-    public PrestationService(PrestationServiceContext dbContext, IEchantillonService echantillonService,IFicheTravailSequenceService ficheTravailSequenceService)
+    private readonly PdfService pdfService;
+    public PrestationService(PrestationServiceContext dbContext, IEchantillonService echantillonService,
+        IFicheTravailSequenceService ficheTravailSequenceService, PdfService pdfService)
     {
         _dbContext = dbContext;
         _echantillonService = echantillonService;
         _ficheTravailSequenceService = ficheTravailSequenceService;
+        this.pdfService = pdfService;
     }
 
     public async Task<Prestation> GetPrestation(int id)
@@ -95,5 +98,12 @@ public class PrestationService : IPrestationService
             DateCloture = null
         };
         return prestation;
+    }
+    // TODO : Get rid of the warning
+
+    public async Task<byte[]> EtatDeDecompteToPdf(int id)
+    {
+        string content = "Hello, PDF!";
+        return pdfService.GeneratePdf(content);
     }
 }

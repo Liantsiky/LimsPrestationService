@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <Reference Include="ApiService">
       <HintPath>.\lib\ApiService.dll</HintPath>
     </Reference>

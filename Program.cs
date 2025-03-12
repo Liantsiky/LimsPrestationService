@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using LimsPrestationService.Data;
 using LimsPrestationService.Services;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,11 @@ builder.Services.AddScoped<IEtatPrestationService, EtatPrestationService>();
 builder.Services.AddScoped<IPrestationService, PrestationService>();
 builder.Services.AddScoped<IEchantillonService, EchantillonService>();
 builder.Services.AddScoped<IFicheTravailSequenceService, FicheTravailSequenceService>();
+
+builder.Services.AddSingleton<ITools, PdfTools>();
+builder.Services.AddSingleton<IConverter, SynchronizedConverter>();
+builder.Services.AddSingleton(new PdfTools());
+builder.Services.AddSingleton<PdfService>();
 
 builder.Services.AddControllers();
 
