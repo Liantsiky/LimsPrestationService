@@ -22,6 +22,8 @@ builder.Services.AddScoped<IEtatPrestationService, EtatPrestationService>();
 builder.Services.AddScoped<IPrestationService, PrestationService>();
 builder.Services.AddScoped<IEchantillonService, EchantillonService>();
 builder.Services.AddScoped<IFicheTravailSequenceService, FicheTravailSequenceService>();
+builder.Services.AddScoped<ITravailService, TravailService>();
+builder.Services.AddScoped<IEtatDecompteService, EtatDecompteService>();
 
 builder.Services.AddSingleton<ITools, PdfTools>();
 builder.Services.AddSingleton<IConverter, SynchronizedConverter>();

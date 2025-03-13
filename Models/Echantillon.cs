@@ -28,5 +28,6 @@ public class Echantillon
     [Column("date_prelevement")]
     public DateOnly? DatePrelevement { get; set; } 
     public ICollection<Travail> Travails { get; set; } = new List<Travail>();
+    
 
 }
