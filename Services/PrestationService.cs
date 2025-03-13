@@ -10,13 +10,18 @@ public class PrestationService : IPrestationService
     private readonly PrestationServiceContext _dbContext;
     private readonly IEchantillonService _echantillonService;
     private readonly IFicheTravailSequenceService _ficheTravailSequenceService;
+    private readonly ITravailService _travailService;
+    private readonly IEtatDecompteService _etatDecompteService;
     private readonly PdfService pdfService;
     public PrestationService(PrestationServiceContext dbContext, IEchantillonService echantillonService,
-        IFicheTravailSequenceService ficheTravailSequenceService, PdfService pdfService)
+        IFicheTravailSequenceService ficheTravailSequenceService, PdfService pdfService, ITravailService travailService,
+        IEtatDecompteService etatDecompteService)
     {
         _dbContext = dbContext;
         _echantillonService = echantillonService;
         _ficheTravailSequenceService = ficheTravailSequenceService;
+        _travailService = travailService;
+        _etatDecompteService = etatDecompteService;
         this.pdfService = pdfService;
     }
 
@@ -56,41 +61,18 @@ public class PrestationService : IPrestationService
             _dbContext.SaveChanges();
 
             //insert echantillons
-            Dictionary<string,Echantillon> echantillons = new Dictionary<string,Echantillon>();
             foreach (KeyValuePair<string, EchantillonDto> echantillonDto in prestationDto.Echantillons)
             {
                 Echantillon echantillon = _echantillonService.FromDtotoEchantillon(echantillonDto.Key,echantillonDto.Value,prestation.IdPrestation);
                 _dbContext.Echantillons.Add(echantillon);
                 _dbContext.SaveChanges();
-                echantillons.Add(echantillonDto.Key, echantillon);
-            }
-            
-            //insert travaux
-            foreach (KeyValuePair<string,List<int>> travaux in prestationDto.Travaux)
-            {
-                Echantillon echantillon = echantillons[travaux.Key];
-                foreach (int idTypeTravaux in travaux.Value)
-                {
-                    Travail travail = new Travail
-                        {
-                            IdTypeTravaux = idTypeTravaux,
-                            IdEchantillon = echantillon.IdEchantillon //TODO : control that we can do this type of travaux with this type of echantillon
-                        };
-                    _dbContext.Travails.Add(travail);
-                    _dbContext.SaveChanges();
-                    //TODO : Add a Etat_decompte obeject and insert it (need it for the trigger the Etat Decompte - Id_prestation)
-                }
+                List<Travail> travaux = _travailService.FromDtotoTravaux(echantillonDto.Value,echantillon);
+                _dbContext.Travails.AddRange(travaux);
+                _dbContext.SaveChanges();
             }
 
             //insert Etat Decompte
-            EtatDecompte etatDecompte = new EtatDecompte
-                {
-                    IdPrestation = prestation.IdPrestation,
-                    Reference = prestation.ReferenceFicheTravail,
-                    Remise = prestationDto.Remise,
-                    DateEtatDecompte = prestationDto.DatePrestation
-                };
-            _dbContext.EtatDecomptes.Add(etatDecompte);
+            _dbContext.EtatDecomptes.Add(_etatDecompteService.FromDtotoEtatDecompte(prestationDto,prestation));
             _dbContext.SaveChanges();
             transaction.Commit();
 

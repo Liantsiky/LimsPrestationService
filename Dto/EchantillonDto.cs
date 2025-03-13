@@ -14,4 +14,6 @@ public class EchantillonDto
     public DateOnly? DatePrelevement { get; set; }
     [JsonPropertyName("idTypeEchantillon")]
     public int IdTypeEchantillon { get; set; }
+    [JsonPropertyName("typeTravaux")]
+    public required ICollection<TypeTravauxDto> TypeTravaux { get; set;}
 }
