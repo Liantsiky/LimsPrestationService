@@ -7,7 +7,7 @@ public class EchantillonDto
     [JsonPropertyName("idEchantillon")]
     public int? IdEchantillon { get; set; }
     [JsonPropertyName("note")]
-    public string? Note { get; set; } 
+    public string? Note { get; set; }
     [JsonPropertyName("provenance")]
     public string? Provenance { get; set; }
     [JsonPropertyName("datePrelevement")]
