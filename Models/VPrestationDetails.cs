@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LimsPrestationService.Models;
 
@@ -25,4 +26,13 @@ public class VPrestationDetails
     public required string Designation { get; set; }
     [Column("tarif")]
     public required decimal Tarif { get; set; }
+    [Column("id_type_echantillon")]
+    public int IdTypeEchantillon { get; set; }
+    [ForeignKey("IdTypeEchantillon")]
+    public TypeEchantillon? TypeEchantillon { get; set; }
+    [Column("id_echantillon")]
+    public int IdEchantillon { get; set; }
+    [ForeignKey("IdEchantillon")]
+    public Echantillon? Echantillon { get; set; }
+    
 }

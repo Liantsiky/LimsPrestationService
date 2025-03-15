@@ -9,6 +9,41 @@ namespace LimsPrestationService.Models;
 public class Prestation
 {
 
+    public string LoadFicheTravailContent(string content)
+    {
+        string result = content;
+        result = result.Replace("#FicheDeTravail#", ReferenceFicheTravail)
+            .Replace("#Nom#", Client?.Nom)
+            .Replace("#Contact#", Client?.Contact)
+            .Replace("#Adresse#", Client?.Adresse)
+            .Replace("#Email#", Client?.Email)
+            .Replace("#cin#", Client?.Cin)
+            .Replace("#Fax#", Client?.Fax)
+            .Replace("#NifStat#", Client?.NifStat);
+        string typeEchantillons= string.Empty;
+        string provenances = string.Empty;
+        VPrestationDetails?[] echantillons = PrestationDetails
+            .GroupBy(te => te!.TypeEchantillon!.Designation)
+            .Select(te => te.First())
+            .ToArray();
+        foreach(VPrestationDetails? echantillon in  echantillons)
+        {
+            typeEchantillons += echantillon!.TypeEchantillon!.Designation+", ";
+            provenances += echantillon!.Echantillon!.Provenance+", ";
+        }
+        result = result.Replace("#TypeEchantilon#", typeEchantillons.Substring(0, typeEchantillons.Length - 2));
+        result = result.Replace("#Provenance#", provenances.Substring(0, provenances.Length - 2));
+        string travaux = string.Empty;
+        foreach(VDetailsEtatDecompte travail in EtatDecompte!.DetailsEtatDecomptes)
+        {
+            travaux += "<p>"+travail.Designation+"</p>";
+        }
+        result = result.Replace("#Travaux#", travaux);
+        result = result.Replace("#DatePrestation#", DatePrestation.ToString());
+        
+        return result;
+    }
+
     public string LoadEtatDecompteContent(string content)
     {
         string result = content;

@@ -124,4 +124,27 @@ public class PrestationService : IPrestationService
         
         return pdfService.GeneratePdf(content);
     }
+
+    public async Task<byte[]> FicheTravailToPdf(int id)
+    {
+        string content = FileUtils.ReadFile("template/FicheTravail.omnis");
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == id)
+            .Include(p => p.Client)
+            .Include(p => p.EtatDecompte)
+            .ThenInclude(ed => ed!.DetailsEtatDecomptes) // Excpected to be not null at run time (!)
+            .Include(p => p.PrestationDetails)
+            .ThenInclude(pd => pd.TypeEchantillon)
+            .Include(p => p.PrestationDetails)
+            .ThenInclude(pd => pd.Echantillon)
+            .FirstOrDefaultAsync();
+        if(prestation == null)
+        {
+            throw new Exception("Cet état de décompte n'existe pas");
+        }
+
+        content = prestation.LoadFicheTravailContent(content);
+
+        return pdfService.GeneratePdf(content);
+    }
 }

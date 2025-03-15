@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche de travail</title>
+</head>
+<style>
+    table{
+        border-collapse: collapse;
+        width: 90%;
+    }
+    th{
+        height: 4rem;
+    }
+    td{
+        padding-left: 2rem;
+    }
+</style>
+<body>
+    <p><strong>OMNIS</strong></p>
+    <p><strong><u>DIRECTION DU LABORATOIRE</u></strong></p>
+    <br>
+    <div style="width: 100%; text-align: right;">
+        <p><strong>FICHE DE TRAVAIL N° #FicheDeTravail# AAAA /DLAB</strong></p>
+    </div>
+    <br><br>
+    <div style="width: 100%;">
+        <table border="1">
+            <thead>
+                <th>DEMANDEUR</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p><strong>Nom et/ou Raison social : </strong>#Nom#</p>
+                        <p><strong>NIFSTAT : </strong>#NifStat#</p>
+                        <p><strong>C.I.N :</strong>#cin#</p>
+                        <p><strong>Contact :</strong>#Email#</p>
+                    </td>
+                    <td>
+                        <p><strong>ADRESSE : </strong>#Adresse#</p>
+                        <p></p>
+                        <p><strong>Tél : </strong>#Contact#</p>
+                        <p></p>
+                        <p><strong>Fax : </strong>#Fax#</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <br>
+        <table border="1">
+            <thead>
+                <th>
+                    ECHANTILLON
+                </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p><strong>Type : </strong>#TypeEchantilon#</p>
+                        <p><strong>Nombre : </strong></p>
+                        <p><strong>Provenance : </strong>#Provenance#</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table border="1">
+            <thead>
+                <th>TRAVAUX DEMANDES</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        #Travaux#
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="float: right;">Le Demandeur,</p>
+        <p style="float: left;">Le Réceptionnaire,</p>
+        <br><br><br><br><br><br><br>
+        <table border="1">
+            <thead>
+                <th>PIECES CORRESPONDANTES</th>
+            </thead>
+            <tr>
+                <td>
+                    <p><center><strong>Numéro</strong></center></p>
+                    <p>Etat de décompte : #FicheDeTravail#</p>
+                    <p>Note de débit : ..................</p>
+                    <p>Reçu : ..................</p>
+                    <p>Résultat : ..................</p>
+                </td>
+                <td>
+                    <p><center><strong>Date</strong></center></p>
+                    <p>#DatePrestation#</p>
+                    <p>...................</p>
+                    <p>...................</p>
+                    <p>...................</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
