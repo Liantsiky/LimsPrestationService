@@ -2,6 +2,8 @@ using LimsPrestationService.Data;
 using LimsPrestationService.Dto;
 using LimsPrestationService.Models;
 using Microsoft.EntityFrameworkCore;
+using LimsUtils.Utility;
+using System.Threading.Tasks;
 
 namespace LimsPrestationService.Services;
 
@@ -96,11 +98,30 @@ public class PrestationService : IPrestationService
         };
         return prestation;
     }
-    // TODO : Get rid of the warning
 
     public async Task<byte[]> EtatDeDecompteToPdf(int id)
     {
-        string content = "Hello, PDF!";
+        string content = FileUtils.ReadFile("template/EtatDecompte.omnis");
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == id)
+            .Include(p => p.Client)
+            .Include(p => p.EtatDecompte)
+            .ThenInclude(ed => ed.DetailsEtatDecomptes)
+            .FirstOrDefaultAsync();
+        if(prestation == null)
+        {
+            throw new Exception("Cet état de décompte n'existe pas");
+        }
+
+        content = content.Replace("#FicheDeTravail#", prestation.ReferenceFicheTravail)
+            .Replace("#Nom#", prestation.Client?.Nom)
+            .Replace("#Contact#", prestation.Client?.Contact)
+            .Replace("#Adresse#", prestation.Client?.Adresse);
+
+        content = prestation.LoadEtatDecompteContent(content);
+        decimal? total = prestation.EtatDecompte?.TotalMontant ?? 0;
+        content = content.Replace("#Montant#", ViewUtils.RenderMoney(total));
+        
         return pdfService.GeneratePdf(content);
     }
 }

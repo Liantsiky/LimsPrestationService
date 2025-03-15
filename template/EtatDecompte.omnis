@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etat de décompte</title>
+</head>
+    <style>
+        body{
+            font-size: large;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        th{
+            font-weight: bold;
+        }
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td{
+            text-align: center;
+            height: 4rem;
+        }
+    </style>
+<body>
+    <p><strong>OMNIS</strong></p>
+    <p><strong>DIRECTION DU LABORATOIRE</strong></p>
+
+    <br />
+
+    <center>ETAT DE DECOMPTE DE PRESTATION</center>
+    <center>N° #FicheDeTravail# ;/DLAB</center>
+
+    <br />
+
+    <p>CLIENT : #Nom#</p>
+    <p>CIN ou NIFSTAT : #Cin#</p>
+    <p>CONTACT : #Contact#</p>
+    <p>ADRESSE : #Adresse#</p>
+
+    <br />
+
+    <p>TRAVAUX DEMANDES : #Travaux#</p>
+
+    <br />
+
+    <p>NOMBRE D'ECHANTILLON : #Nombre#</p>
+
+    <table border="1">
+        <thead>
+            <th>DESIGNATION</th>
+            <th>UNITE</th>
+            <th>NOMBRE</th>
+            <th>PU</th>
+            <th>MONTANT EN AR</th>
+        </thead>
+        <tbody>
+            #Devis#
+            <tr>
+                <td colspan="4"><strong>Montant Total en Ariary</strong></td>
+                <td>#Montant#</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Arrêté le présent Etat de décompte de prestation à la somme de : #Montant# Ariary</p>
+</body>
+</html>
