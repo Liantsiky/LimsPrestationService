@@ -106,7 +106,7 @@ public class PrestationService : IPrestationService
             .Where(p => p.IdPrestation == id)
             .Include(p => p.Client)
             .Include(p => p.EtatDecompte)
-            .ThenInclude(ed => ed.DetailsEtatDecomptes)
+            .ThenInclude(ed => ed!.DetailsEtatDecomptes) // Excpected to be not null at run time (!)
             .FirstOrDefaultAsync();
         if(prestation == null)
         {

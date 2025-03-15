@@ -12,6 +12,7 @@
         }
         th{
             font-weight: bold;
+            height: 4rem;
         }
         table{
             border-collapse: collapse;
@@ -44,7 +45,7 @@
 
     <br />
 
-    <p>NOMBRE D'ECHANTILLON : #Nombre#</p>
+    <p>NOMBRE D'ECHANTILLON : </p>
 
     <table border="1">
         <thead>

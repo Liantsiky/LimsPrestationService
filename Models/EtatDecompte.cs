@@ -18,11 +18,11 @@ public class EtatDecompte
     [ForeignKey("IdPrestation")]
     public Prestation? Prestation { get; set; }
     [Column("total_montant")]
-    public required decimal TotalMontant { get; set; }
+    public decimal TotalMontant { get; set; } = 0;
     [Column("remise")]
     public required double Remise { get; set; }
     [Column("total_montant_remise")]
-    public required decimal TotalMontantRemise { get; set; }
+    public decimal TotalMontantRemise { get; set; } = 0;
 
     public ICollection<VDetailsEtatDecompte> DetailsEtatDecomptes { get; set; } = new List<VDetailsEtatDecompte>();
 }
