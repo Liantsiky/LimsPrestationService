@@ -95,5 +95,12 @@ public class PrestationController : Controller
         byte[] content = await _prestationService.EtatDeDecompteToPdf(id);
         return File(content, "application/pdf", $"EtatDeDecompte_{id}.pdf");
     }
+
+    [HttpPost("fiche/travail/{id}")]
+    public async Task<IActionResult> FicheTravaildf(int id)
+    {
+        byte[] content = await _prestationService.FicheTravailToPdf(id);
+        return File(content, "application/pdf", $"FicheTravail_{id}.pdf");
+    }
     
 }

@@ -9,5 +9,6 @@ public interface IPrestationService
     Task<Prestation> GetPrestation(int id);
     Task<VPrestationEtatDecompte[]> GetPrestations();
     Task<byte[]> EtatDeDecompteToPdf(int id);
+    Task<byte[]> FicheTravailToPdf(int id);
     
 }

@@ -64,6 +64,6 @@
         </tbody>
     </table>
 
-    <p>Arrêté le présent Etat de décompte de prestation à la somme de : #Montant# Ariary</p>
+    <p>Arrêté le présent Etat de décompte de prestation à la somme de : <strong>#Montant# Ariary</strong></p>
 </body>
 </html>
