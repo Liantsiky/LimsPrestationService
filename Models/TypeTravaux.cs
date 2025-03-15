@@ -11,9 +11,9 @@ public class TypeTravaux
     [Column("id_type_travaux")]
     public int IdTypeTravaux { get; set; }
     [Column("code")]
-    public string Code { get; set; }
+    public string Code { get; set; } = string.Empty;
     [Column("designation")]
-    public string Designation { get; set; }
+    public string Designation { get; set; } = string.Empty;
     [Column("has_resultat")]
     public int HasResultat { get; set; }
     [Column("id_departement")]
