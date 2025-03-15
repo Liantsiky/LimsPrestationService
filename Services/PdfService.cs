@@ -1,5 +1,6 @@
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using LimsPrestationService.Models;
 
 namespace LimsPrestationService.Services;
 
