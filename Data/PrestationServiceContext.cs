@@ -38,5 +38,4 @@ public class PrestationServiceContext : DbContext
     public DbSet<FicheTravailSequence> FicheTravailSequences { get; set; }
     public DbSet<Travail> Travails { get; set; }
     public DbSet<EtatDecompte> EtatDecomptes {get; set;}
-
 }

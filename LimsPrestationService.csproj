@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
     <Reference Include="ApiService">
       <HintPath>.\lib\ApiService.dll</HintPath>
     </Reference>

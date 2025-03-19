@@ -23,4 +23,15 @@ public class PdfService
 
         return _converter.Convert(doc);
     }
+
+    public byte[] GeneratePdfAFive(string htmlContent)
+    {
+        var doc = new HtmlToPdfDocument()
+        {
+            GlobalSettings = new GlobalSettings { PaperSize = PaperKind.A5 },
+            Objects = { new ObjectSettings { HtmlContent = htmlContent } }
+        };
+
+        return _converter.Convert(doc);
+    }
 }
