@@ -28,6 +28,8 @@ public class Echantillon
     [Column("date_prelevement")]
     public DateOnly? DatePrelevement { get; set; } 
     public ICollection<Travail> Travails { get; set; } = new List<Travail>();
-    
 
+    // For details Echantillon
+    public ICollection<VDetailsEchantillon> DetailsEchantillons { get; set; } = new List<VDetailsEchantillon>();
+    
 }

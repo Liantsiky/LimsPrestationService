@@ -67,4 +67,17 @@ public class EchantillonService : IEchantillonService
         return result;
 
     }
+
+    public async Task<Echantillon> GetEchantillonByReference(string reference)
+    {
+        Echantillon? result = await _dbContext.Echantillons
+        .Where(e => e.Reference == reference)
+        .Include(e => e.DetailsEchantillons)
+        .FirstOrDefaultAsync();
+        if(result == null)
+        {
+            throw new Exception("Cette echantillon n'existe pas dans la base");
+        }
+        return result;
+    }
 }
