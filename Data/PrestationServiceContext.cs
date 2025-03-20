@@ -19,6 +19,7 @@ public class PrestationServiceContext : DbContext
         modelBuilder.Entity<VPrestationEtatDecompte>().ToView("v_prestation_etat_decompte");
         modelBuilder.Entity<VPrestationDetails>().ToView("v_prestation_details");
         modelBuilder.Entity<VDetailsEtatDecompte>().ToView("v_details_etat_decompte");
+        modelBuilder.Entity<VDetailsEchantillon>().ToView("v_details_echantillon");
 
         modelBuilder.Entity<Prestation>()
             .HasMany(p => p.PrestationDetails)
@@ -28,6 +29,10 @@ public class PrestationServiceContext : DbContext
             .HasOne(e => e.Prestation)
             .WithOne(p => p.EtatDecompte)
            .HasForeignKey<EtatDecompte>(e => e.IdPrestation);
+
+        modelBuilder.Entity<Echantillon>()
+            .HasMany(e => e.DetailsEchantillons)
+            .WithOne(de => de.Echantillon);
     }
     public DbSet<Client> Clients { get; set; }
     public DbSet<EtatPrestation> EtatPrestations { get; set; }

@@ -10,4 +10,5 @@ public interface IEchantillonService
     string GenerateQrCode(string reference);
 
     byte[] GenerateEchantillonQr(string reference);
+    Task<Echantillon> GetEchantillonByReference(string reference);
 }
