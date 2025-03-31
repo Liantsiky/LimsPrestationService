@@ -17,10 +17,15 @@ public class PrestationController : Controller
         _prestationService = prestationService;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<ApiResponse>> GetPrestations()
+    [HttpPost("tri")]
+    public async Task<ActionResult<ApiResponse>> GetPrestations([FromBody] SortPrestationDto? sorter)
     {
-        VPrestationEtatDecompte[] prestations = await _prestationService.GetPrestations();
+        if(sorter == null)
+        {
+            sorter = new SortPrestationDto();
+        }
+        sorter.ApplyDefaultValues();
+        VPrestationEtatDecompte[] prestations = await _prestationService.GetPrestations(sorter);
         return Ok(
             new ApiResponse
             {

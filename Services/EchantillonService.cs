@@ -73,6 +73,7 @@ public class EchantillonService : IEchantillonService
         Echantillon? result = await _dbContext.Echantillons
         .Where(e => e.Reference == reference)
         .Include(e => e.DetailsEchantillons)
+        .Include(e => e.TypeEchantillon)
         .FirstOrDefaultAsync();
         if(result == null)
         {

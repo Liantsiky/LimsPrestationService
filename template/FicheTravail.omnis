@@ -33,17 +33,17 @@
             <tbody>
                 <tr>
                     <td>
-                        <p><strong>Nom et/ou Raison social : </strong>#Nom#</p>
-                        <p><strong>NIFSTAT : </strong>#NifStat#</p>
-                        <p><strong>C.I.N :</strong>#cin#</p>
-                        <p><strong>Contact :</strong>#Email#</p>
+                        <p><strong>Nom et/ou Raison social :</strong> #Nom#</p>
+                        <p><strong>NIFSTAT :</strong> #NifStat#</p>
+                        <p><strong>C.I.N :</strong> #cin#</p>
+                        <p><strong>Contact :</strong> #Email#</p>
                     </td>
                     <td>
-                        <p><strong>ADRESSE : </strong>#Adresse#</p>
+                        <p><strong>ADRESSE :</strong> #Adresse#</p>
                         <p></p>
-                        <p><strong>Tél : </strong>#Contact#</p>
+                        <p><strong>Tél :</strong> #Contact#</p>
                         <p></p>
-                        <p><strong>Fax : </strong>#Fax#</p>
+                        <p><strong>Fax :</strong> #Fax#</p>
                     </td>
                 </tr>
             </tbody>
@@ -58,9 +58,9 @@
             <tbody>
                 <tr>
                     <td>
-                        <p><strong>Type : </strong>#TypeEchantilon#</p>
+                        <p><strong>Type :</strong> #TypeEchantilon#</p>
                         <p><strong>Nombre : </strong></p>
-                        <p><strong>Provenance : </strong>#Provenance#</p>
+                        <p><strong>Provenance :</strong> #Provenance#</p>
                     </td>
                 </tr>
             </tbody>
