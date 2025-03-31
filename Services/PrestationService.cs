@@ -43,9 +43,19 @@ public class PrestationService : IPrestationService
         return prestation;
     }
 
-    public async Task<VPrestationEtatDecompte[]> GetPrestations()
+    public async Task<VPrestationEtatDecompte[]> GetPrestations(SortPrestationDto sorter)
     {
-        VPrestationEtatDecompte[] prestations = await _dbContext.VPrestationEtatDecomptes
+        var query =  _dbContext.VPrestationEtatDecomptes.AsQueryable();
+        if(!string.IsNullOrEmpty(sorter.ReferenceFicheTravail))
+        {
+            query = query.Where(p => p.Reference == sorter.ReferenceFicheTravail);
+        }
+        if(sorter.IdEtatPrestation != null)
+        {
+            query = query.Where(p => p.IdEtatPrestation >= 1);
+        }
+        VPrestationEtatDecompte[] prestations = await query
+        .Where(p => p.DatePrestation.Year == sorter.AnneeExercice)
         .ToArrayAsync();
 
         return prestations;
