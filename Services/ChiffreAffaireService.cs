@@ -14,10 +14,17 @@ public class ChiffreAffaireService : IChiffreAffaireService
         this._dbContext = dbContext;
     }
 
-    // FIXME : Define
-    public Task<ChiffreAffaire[]> GetChiffreAffaireJournalier(int annee)
+    public async Task<ChiffreAffaire[]> GetChiffreAffaireAnnuel(ChiffreAffaire chiffreAffaire)
     {
-        throw new NotImplementedException();
+        int anneeDebut = chiffreAffaire!.Mois!.Value;
+        int anneeFin = chiffreAffaire!.Annee!.Value;
+        var cas = await _dbContext.Database.SqlQuery<ChiffreAffaire>(
+            @$"SELECT annee, 0 as mois, 0 as jour, montant FROM v_chiffre_affaire_annuel
+                where annee >= {anneeDebut}
+                AND annee <= {anneeFin}")
+            .ToArrayAsync();
+
+        return cas;
     }
 
     public async Task<ChiffreAffaire[]> GetChiffreAffaireMensuel(ChiffreAffaire chiffreAffaire)
