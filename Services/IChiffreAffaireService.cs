@@ -5,5 +5,5 @@ namespace LimsPrestationService.Services;
 public interface IChiffreAffaireService
 {
     Task<ChiffreAffaire[]> GetChiffreAffaireMensuel(ChiffreAffaire chiffreAffaire);
-    Task<ChiffreAffaire[]> GetChiffreAffaireJournalier(int annee);
+    Task<ChiffreAffaire[]> GetChiffreAffaireAnnuel(ChiffreAffaire chiffreAffaire);
 }
