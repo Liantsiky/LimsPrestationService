@@ -1,0 +1,51 @@
+using LimsPrestationService.Models;
+using LimsPrestationService.Services;
+using LimsUtils.Api;
+using LimsUtils.Utility;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LimsPrestationService.Controllers;
+
+[ApiController]
+[Route("/api/chiffre/affaire")]
+public class ChiffreAffaireController : Controller
+{
+    private readonly IChiffreAffaireService _chiffreAffaireService;
+    public ChiffreAffaireController(IChiffreAffaireService chiffreAffaireService)
+    {
+        _chiffreAffaireService = chiffreAffaireService;
+    }
+
+    [HttpPost("mensuel")]
+    public async Task<ActionResult<ApiResponse>> GetChiffreAffaireMensuel([FromBody] ChiffreAffaire? chiffreAffaire)
+    {
+        if(chiffreAffaire == null)
+        {
+            chiffreAffaire = new ChiffreAffaire();
+            chiffreAffaire.Annee = DateUtils.GetCurrentYear();
+        }
+        try
+        {
+            ChiffreAffaire[] result = await _chiffreAffaireService.GetChiffreAffaireMensuel(chiffreAffaire);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Chiffre d'affaire mensuel retourné avec succes.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
+}
