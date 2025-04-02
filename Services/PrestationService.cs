@@ -50,9 +50,9 @@ public class PrestationService : IPrestationService
         {
             query = query.Where(p => p.Reference == sorter.ReferenceFicheTravail);
         }
-        if(sorter.IdEtatPrestation != null)
+        if(sorter.IdEtatPrestation != null || sorter.IdEtatPrestation != 0)
         {
-            query = query.Where(p => p.IdEtatPrestation >= 1);
+            query = query.Where(p => p.IdEtatPrestation == 1);
         }
         VPrestationEtatDecompte[] prestations = await query
         .Where(p => p.DatePrestation.Year == sorter.AnneeExercice)

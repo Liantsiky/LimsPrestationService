@@ -25,6 +25,7 @@ builder.Services.AddScoped<IFicheTravailSequenceService, FicheTravailSequenceSer
 builder.Services.AddScoped<ITravailService, TravailService>();
 builder.Services.AddScoped<IEtatDecompteService, EtatDecompteService>();
 builder.Services.AddScoped<IEchantillonService, EchantillonService>();
+builder.Services.AddScoped<IChiffreAffaireService, ChiffreAffaireService>();
 
 builder.Services.AddSingleton<ITools, PdfTools>();
 builder.Services.AddSingleton<IConverter, SynchronizedConverter>();
