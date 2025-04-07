@@ -35,4 +35,15 @@ public class ChiffreAffaireService : IChiffreAffaireService
         
         return cas;
     }
+
+    public async Task<ChiffreAffaire[]> GetChiffreAffaireJournalier(ChiffreAffaire chiffreAffaire)
+    {
+        var cas = await _dbContext.Database.SqlQuery<ChiffreAffaire>(
+            @$"SELECT annee, mois, montant, 0 as jour FROM v_chiffre_affaire_journalier 
+                where annee = {chiffreAffaire!.Annee}
+                and mois = {chiffreAffaire.Mois}")
+            .ToArrayAsync();
+        
+        return cas;
+    }
 }
