@@ -16,5 +16,9 @@ public class SortPrestationDto
     {
         ReferenceFicheTravail ??= string.Empty;
         AnneeExercice ??= DateUtils.GetCurrentYear();
+        if(IdEtatPrestation == 0)
+        {
+            IdEtatPrestation = null;
+        }
     }
 }
