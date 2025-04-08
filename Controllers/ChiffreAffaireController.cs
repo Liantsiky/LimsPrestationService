@@ -1,3 +1,4 @@
+using LimsPrestationService.Dto;
 using LimsPrestationService.Models;
 using LimsPrestationService.Services;
 using LimsUtils.Api;
@@ -95,6 +96,39 @@ public class ChiffreAffaireController : Controller
         try
         {
             ChiffreAffaire[] result = await _chiffreAffaireService.GetChiffreAffaireJournalier(chiffreAffaire);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Chiffre d'affaire annuel retourné avec succes.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
+
+    [HttpPost("departement/mensuel")]
+    public async Task<ActionResult<ApiResponse>> GetChiffreAffaireParDepartementMensuel([FromBody] ChiffreAffaire? chiffreAffaire)
+    {
+        if(chiffreAffaire == null)
+        {
+            chiffreAffaire = new ChiffreAffaire();
+            chiffreAffaire.Annee = DateUtils.GetCurrentYear();
+        }
+        try
+        {
+            ChiffreAffaireDepartementDto[] result = await _chiffreAffaireService.GetChiffreAffaireParDepartementMensuel(chiffreAffaire);
             return Ok(
                 new ApiResponse
                 {

@@ -33,6 +33,9 @@ public class PrestationServiceContext : DbContext
         modelBuilder.Entity<Echantillon>()
             .HasMany(e => e.DetailsEchantillons)
             .WithOne(de => de.Echantillon);
+
+        modelBuilder.Entity<ChiffreAffaire>().HasNoKey().ToView(null);
+
     }
     public DbSet<Client> Clients { get; set; }
     public DbSet<EtatPrestation> EtatPrestations { get; set; }
@@ -43,4 +46,6 @@ public class PrestationServiceContext : DbContext
     public DbSet<FicheTravailSequence> FicheTravailSequences { get; set; }
     public DbSet<Travail> Travails { get; set; }
     public DbSet<EtatDecompte> EtatDecomptes {get; set;}
+
+    public DbSet<ChiffreAffaire> ChiffreAffaires { get; set; }
 }
