@@ -1,6 +1,8 @@
 using LimsPrestationService.Data;
+using LimsPrestationService.Dto;
 using LimsPrestationService.Models;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace LimsPrestationService.Services;
 
@@ -18,10 +20,15 @@ public class ChiffreAffaireService : IChiffreAffaireService
     {
         int anneeDebut = chiffreAffaire!.Mois!.Value;
         int anneeFin = chiffreAffaire!.Annee!.Value;
-        var cas = await _dbContext.Database.SqlQuery<ChiffreAffaire>(
-            @$"SELECT annee, 0 as mois, 0 as jour, montant FROM v_chiffre_affaire_annuel
-                where annee >= {anneeDebut}
-                AND annee <= {anneeFin}")
+
+        // Interpolation to avoid sqlinjection
+        var anneeDebutParam = new MySqlParameter("@anneeDebut", anneeDebut);
+        var anneeFinParam = new MySqlParameter("@anneeFin", anneeFin);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, 0 as mois, 0 as jour, montant, 0 as idDepartement, 'None' as designation FROM v_chiffre_affaire_annuel
+                where annee >= @anneeDebut
+                AND annee <= @anneeFin", anneeDebutParam, anneeFinParam)
             .ToArrayAsync();
 
         return cas;
@@ -29,8 +36,12 @@ public class ChiffreAffaireService : IChiffreAffaireService
 
     public async Task<ChiffreAffaire[]> GetChiffreAffaireMensuel(ChiffreAffaire chiffreAffaire)
     {
-        var cas = await _dbContext.Database.SqlQuery<ChiffreAffaire>(
-            $"SELECT annee, mois, montant, 0 as jour FROM v_chiffre_affaire_mensuel where annee = {chiffreAffaire!.Annee}")
+        int annee = chiffreAffaire!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, mois, montant, 0 as jour, 0 as idDepartement, 'None' as designation FROM v_chiffre_affaire_mensuel
+             where annee =@annee", anneeParam)
             .ToArrayAsync();
         
         return cas;
@@ -38,12 +49,49 @@ public class ChiffreAffaireService : IChiffreAffaireService
 
     public async Task<ChiffreAffaire[]> GetChiffreAffaireJournalier(ChiffreAffaire chiffreAffaire)
     {
-        var cas = await _dbContext.Database.SqlQuery<ChiffreAffaire>(
-            @$"SELECT annee, mois, montant, 0 as jour FROM v_chiffre_affaire_journalier 
-                where annee = {chiffreAffaire!.Annee}
-                and mois = {chiffreAffaire.Mois}")
+        int annee = chiffreAffaire!.Annee!.Value;
+        int mois = chiffreAffaire!.Mois!.Value;
+
+        var anneeParam = new MySqlParameter("@annee", annee);
+        var moisParam = new MySqlParameter("@mois", mois);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, mois, montant, 0 as jour, 0 as idDepartement, 'None' as designation FROM v_chiffre_affaire_journalier 
+                where annee = @annee
+                and mois = @mois", anneeParam, moisParam)
             .ToArrayAsync();
         
         return cas;
+    }
+
+    public async Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementMensuel(ChiffreAffaire chiffreAffaire)
+    {
+        ChiffreAffaireDepartementDto[] result = new ChiffreAffaireDepartementDto [1];
+
+        int annee = chiffreAffaire!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @$"SELECT annee, mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_mensuel 
+                where annee = @annee", anneeParam)
+            .ToListAsync();
+
+        result = cas
+            .GroupBy(c => new { c.IdDepartement, c.Designation })
+            .Select (ca => new ChiffreAffaireDepartementDto 
+            {
+                IdDepartement = ca.Key.IdDepartement,
+                Designation = ca.Key.Designation,
+                ChiffreAffaires = ca.Select(caff => new ChiffreAffaire
+                {
+                    Montant = caff.Montant,
+                    Annee = caff.Annee,
+                    Mois = caff.Mois,
+                    Jour = caff.Jour
+                }).ToList()
+            }).ToArray();
+
+        
+        return result;
     }
 }
