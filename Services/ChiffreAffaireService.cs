@@ -56,7 +56,7 @@ public class ChiffreAffaireService : IChiffreAffaireService
         var moisParam = new MySqlParameter("@mois", mois);
 
         var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
-            @"SELECT annee, mois, montant, 0 as jour, 0 as idDepartement, 'None' as designation FROM v_chiffre_affaire_journalier 
+            @"SELECT annee, mois, montant, jour, 0 as idDepartement, 'None' as designation FROM v_chiffre_affaire_journalier 
                 where annee = @annee
                 and mois = @mois", anneeParam, moisParam)
             .ToArrayAsync();
@@ -129,7 +129,7 @@ public class ChiffreAffaireService : IChiffreAffaireService
         var anneeParam = new MySqlParameter("@annee", annee);
 
         var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
-            @"SELECT annee, 0 as mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_journalier 
+            @"SELECT annee, mois, montant, jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_journalier 
                 where annee = @annee AND mois = @mois", anneeParam, moisParam)
             .ToListAsync();
 
