@@ -119,4 +119,22 @@ public class ChiffreAffaireService : IChiffreAffaireService
 
         return result;
     }
+
+    public async Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementJournalier(ChiffreAffaire chiffreAffaire)
+    {
+        ChiffreAffaireDepartementDto[] result = new ChiffreAffaireDepartementDto [1];
+        int mois = chiffreAffaire!.Mois!.Value;
+        var moisParam = new MySqlParameter("@mois", mois);
+        int annee = chiffreAffaire!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, 0 as mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_journalier 
+                where annee = @annee AND mois = @mois", anneeParam, moisParam)
+            .ToListAsync();
+
+        result = GroupByDepartement(cas);
+
+        return result;
+    }
 }
