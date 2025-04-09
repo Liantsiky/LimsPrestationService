@@ -184,4 +184,38 @@ public class ChiffreAffaireController : Controller
             });
         }
     }
+
+    [HttpPost("departement/journalier")]
+    public async Task<ActionResult<ApiResponse>> GetChiffreAffaireParDepartementJournalier([FromBody] ChiffreAffaire? chiffreAffaire)
+    {
+        if(chiffreAffaire == null)
+        {
+            chiffreAffaire = new ChiffreAffaire();
+            chiffreAffaire.Annee = DateUtils.GetCurrentYear();
+            chiffreAffaire.Mois = DateTime.Now.Month;
+        }
+        try
+        {
+            ChiffreAffaireDepartementDto[] result = await _chiffreAffaireService.GetChiffreAffaireParDepartementJournalier(chiffreAffaire);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Chiffre d'affaire annuel retourné avec succes.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
 }
