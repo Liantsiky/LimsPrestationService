@@ -64,19 +64,10 @@ public class ChiffreAffaireService : IChiffreAffaireService
         return cas;
     }
 
-    public async Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementMensuel(ChiffreAffaire chiffreAffaire)
+    public ChiffreAffaireDepartementDto[] GroupByDepartement(List<ChiffreAffaire> chiffreAffaires)
     {
         ChiffreAffaireDepartementDto[] result = new ChiffreAffaireDepartementDto [1];
-
-        int annee = chiffreAffaire!.Annee!.Value;
-        var anneeParam = new MySqlParameter("@annee", annee);
-
-        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
-            @$"SELECT annee, mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_mensuel 
-                where annee = @annee", anneeParam)
-            .ToListAsync();
-
-        result = cas
+        result = chiffreAffaires
             .GroupBy(c => new { c.IdDepartement, c.Designation })
             .Select (ca => new ChiffreAffaireDepartementDto 
             {
@@ -91,7 +82,41 @@ public class ChiffreAffaireService : IChiffreAffaireService
                 }).ToList()
             }).ToArray();
 
-        
+        return result;
+    }
+
+    public async Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementMensuel(ChiffreAffaire chiffreAffaire)
+    {
+        ChiffreAffaireDepartementDto[] result = new ChiffreAffaireDepartementDto [1];
+
+        int annee = chiffreAffaire!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_mensuel 
+                where annee = @annee", anneeParam)
+            .ToListAsync();
+
+        result = GroupByDepartement(cas);
+
+        return result;
+    }
+
+    public async Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementAnnuel(ChiffreAffaire chiffreAffaire)
+    {
+        ChiffreAffaireDepartementDto[] result = new ChiffreAffaireDepartementDto [1];
+        int anneeDebut = chiffreAffaire!.Mois!.Value;
+        var anneeDebutParam = new MySqlParameter("@anneeDebut", anneeDebut);
+        int anneeFin = chiffreAffaire!.Annee!.Value;
+        var anneeFinParam = new MySqlParameter("@anneeFin", anneeFin);
+
+        var cas = await _dbContext.ChiffreAffaires.FromSqlRaw(
+            @"SELECT annee, 0 as mois, montant, 0 as jour, idDepartement, designation FROM v_chiffre_affaire_par_departement_annuel 
+                where annee >= @anneeDebut AND annee <= @anneeFin", anneeDebutParam, anneeFinParam)
+            .ToListAsync();
+
+        result = GroupByDepartement(cas);
+
         return result;
     }
 }
