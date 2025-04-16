@@ -1,3 +1,4 @@
+using System.Text.Json;
 using LimsPrestationService.Data;
 using LimsPrestationService.Dto;
 using LimsPrestationService.Models;
@@ -136,5 +137,36 @@ public class ChiffreAffaireService : IChiffreAffaireService
         result = GroupByDepartement(cas);
 
         return result;
+    }
+
+    public async Task<ChiffreAffaireInterneExterne[]> GetChiffreAffaireInterneExterneAnnuel(ChiffreAffaireInterneExterne chiffreAffaireInterneExterne)
+    {
+        int annee = chiffreAffaireInterneExterne!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        var cas = await _dbContext.ChiffreAffaireInterneExternes.FromSqlRaw(
+            @"SELECT annee, 0 as mois, montant, isInterne FROM v_chiffre_affaire_client_annuel 
+                where annee = @annee", anneeParam)
+            .ToArrayAsync();
+
+        return cas;
+    }
+
+    public async Task<ChiffreAffaireInterneExterne[]> GetChiffreAffaireInterneExterneMensuel(ChiffreAffaireInterneExterne chiffreAffaireInterneExterne)
+    {
+        int annee = chiffreAffaireInterneExterne!.Annee!.Value;
+        var anneeParam = new MySqlParameter("@annee", annee);
+
+        int mois = chiffreAffaireInterneExterne!.Mois!.Value;
+        var moisParam = new MySqlParameter("@mois", mois);
+
+        var cas = await _dbContext.ChiffreAffaireInterneExternes.FromSqlRaw(
+            @"SELECT annee, mois, montant, isInterne FROM v_chiffre_affaire_client_mensuel
+                where annee = @annee and mois = @mois", anneeParam, moisParam)
+            .ToArrayAsync();
+
+        Console.WriteLine(JsonSerializer.Serialize(cas));
+
+        return cas;
     }
 }

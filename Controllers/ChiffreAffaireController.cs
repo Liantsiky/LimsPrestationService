@@ -218,4 +218,71 @@ public class ChiffreAffaireController : Controller
             });
         }
     }
+
+    [HttpPost("client/annuel")]
+    public async Task<ActionResult<ApiResponse>> GetChiffreAffaireInterneExterneAnnuel([FromBody] ChiffreAffaireInterneExterne? chiffreAffaireInterneExterne)
+    {
+        if(chiffreAffaireInterneExterne == null)
+        {
+            chiffreAffaireInterneExterne = new ChiffreAffaireInterneExterne();
+            chiffreAffaireInterneExterne.Annee = DateUtils.GetCurrentYear();
+        }
+        try
+        {
+            ChiffreAffaireInterneExterne[] result = await _chiffreAffaireService.GetChiffreAffaireInterneExterneAnnuel(chiffreAffaireInterneExterne);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Chiffre d'affaire annuel retourné avec succes.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
+
+    [HttpPost("client/mensuel")]
+    public async Task<ActionResult<ApiResponse>> GetChiffreAffaireInterneExterneMensuel([FromBody] ChiffreAffaireInterneExterne? chiffreAffaireInterneExterne)
+    {
+        if(chiffreAffaireInterneExterne == null)
+        {
+            chiffreAffaireInterneExterne = new ChiffreAffaireInterneExterne();
+            chiffreAffaireInterneExterne.Annee = DateUtils.GetCurrentYear();
+            chiffreAffaireInterneExterne.Mois = DateTime.Now.Month;
+        }
+        try
+        {
+            ChiffreAffaireInterneExterne[] result = await _chiffreAffaireService.GetChiffreAffaireInterneExterneMensuel(chiffreAffaireInterneExterne);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Chiffre d'affaire annuel retourné avec succes.",
+                    StatusCode = 200
+                });
+        }catch(Exception e)
+        {
+            return BadRequest(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 400
+            });
+        }
+    }
 }
