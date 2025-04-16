@@ -35,6 +35,7 @@ public class PrestationServiceContext : DbContext
             .WithOne(de => de.Echantillon);
 
         modelBuilder.Entity<ChiffreAffaire>().HasNoKey().ToView(null);
+        modelBuilder.Entity<ChiffreAffaireInterneExterne>().HasNoKey().ToView(null);
 
     }
     public DbSet<Client> Clients { get; set; }
@@ -48,4 +49,5 @@ public class PrestationServiceContext : DbContext
     public DbSet<EtatDecompte> EtatDecomptes {get; set;}
 
     public DbSet<ChiffreAffaire> ChiffreAffaires { get; set; }
+    public DbSet<ChiffreAffaireInterneExterne> ChiffreAffaireInterneExternes { get; set; }
 }

@@ -11,4 +11,6 @@ public interface IChiffreAffaireService
     Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementMensuel(ChiffreAffaire chiffreAffaire); 
     Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementAnnuel(ChiffreAffaire chiffreAffaire);
     Task<ChiffreAffaireDepartementDto[]> GetChiffreAffaireParDepartementJournalier(ChiffreAffaire chiffreAffaire);
+    Task<ChiffreAffaireInterneExterne[]> GetChiffreAffaireInterneExterneAnnuel(ChiffreAffaireInterneExterne chiffreAffaireInterneExterne);
+    Task<ChiffreAffaireInterneExterne[]> GetChiffreAffaireInterneExterneMensuel(ChiffreAffaireInterneExterne chiffreAffaireInterneExterne);
 }
