@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LimsPrestationService.Models;
 
@@ -18,5 +19,6 @@ public class Travail
     [Column("id_echantillon")]
     public required int IdEchantillon { get; set; }
     [ForeignKey("IdEchantillon")]
+    [JsonIgnore]
     public Echantillon? Echantillon { get; set; }
 }
