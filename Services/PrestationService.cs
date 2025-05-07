@@ -4,6 +4,7 @@ using LimsPrestationService.Models;
 using Microsoft.EntityFrameworkCore;
 using LimsUtils.Utility;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace LimsPrestationService.Services;
 
@@ -63,7 +64,7 @@ public class PrestationService : IPrestationService
 
     public  Prestation CreatePrestation(PrestationDto prestationDto)
     {
-
+        Console.WriteLine(JsonSerializer.Serialize(prestationDto));
         using var transaction =  _dbContext.Database.BeginTransaction();
         try
         {
@@ -72,20 +73,36 @@ public class PrestationService : IPrestationService
             _dbContext.Prestations.Add(prestation);
             _dbContext.SaveChanges();
 
+            
             //insert echantillons
             foreach (KeyValuePair<string, EchantillonDto> echantillonDto in prestationDto.Echantillons)
             {
+               
+
                 Echantillon echantillon = _echantillonService.FromDtotoEchantillon(echantillonDto.Key,echantillonDto.Value,prestation.IdPrestation);
                 _dbContext.Echantillons.Add(echantillon);
                 _dbContext.SaveChanges();
+              
+
                 List<Travail> travaux = _travailService.FromDtotoTravaux(echantillonDto.Value,echantillon);
+                Console.WriteLine(JsonSerializer.Serialize(travaux));
+
                 _dbContext.Travails.AddRange(travaux);
+               
+
                 _dbContext.SaveChanges();
+                
+
             }
+               
 
             //insert Etat Decompte
             _dbContext.EtatDecomptes.Add(_etatDecompteService.FromDtotoEtatDecompte(prestationDto,prestation));
+                
+
             _dbContext.SaveChanges();
+           
+
             transaction.Commit();
 
             return this.GetPrestation(prestation.IdPrestation).Result;

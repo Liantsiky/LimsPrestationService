@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LimsPrestationService.Models;
 
@@ -16,6 +17,7 @@ public class EtatDecompte
     [Column("id_prestation")]
     public int IdPrestation { get; set; }
     [ForeignKey("IdPrestation")]
+    [JsonIgnore]
     public Prestation? Prestation { get; set; }
     [Column("total_montant")]
     public decimal TotalMontant { get; set; } = 0;
