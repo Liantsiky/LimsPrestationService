@@ -17,6 +17,21 @@ public class PrestationController : Controller
         _prestationService = prestationService;
     }
 
+    [HttpPut("transmission/{idPrestation}")]
+    public async Task<ActionResult<ApiResponse>> TransmissionPrestation(int idPrestation)
+    {
+        Prestation prestation = _prestationService.TransmissionPrestation(idPrestation).Result;
+        return Ok(
+            new ApiResponse
+            {
+                Data = prestation,
+                ViewBag = null,
+                IsSuccess = true,
+                Message = "Prestation transmis avec succes.",
+                StatusCode = 200
+            });
+    }
+
     [HttpPost("tri")]
     public async Task<ActionResult<ApiResponse>> GetPrestations([FromBody] SortPrestationDto? sorter)
     {
@@ -40,9 +55,11 @@ public class PrestationController : Controller
     [HttpGet("{id}")]
     public async Task<ActionResult<Prestation>> GetPrestation(int id)
     {
+        
         try
         {
             Prestation prestation = await _prestationService.GetPrestation(id);
+
             return Ok(
                 new ApiResponse
                 {
@@ -54,6 +71,8 @@ public class PrestationController : Controller
                 });
         }catch(Exception e)
         {
+
+
             return BadRequest(new ApiResponse
             {
                 Data = null,

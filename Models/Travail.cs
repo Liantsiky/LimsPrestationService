@@ -16,6 +16,8 @@ public class Travail
     public required int IdTypeTravaux { get; set; }
     [Column("id_avancee_travail")]
     public int IdAvanceeTravail { get; set; } = 1;
+    [ForeignKey("IdAvanceeTravail")]
+    public AvanceeTravail? AvanceeTravail { get; set; }
     [Column("id_echantillon")]
     public required int IdEchantillon { get; set; }
     [ForeignKey("IdEchantillon")]
