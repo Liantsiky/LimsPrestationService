@@ -11,6 +11,8 @@ public class VPrestationDetails
     [Key]
     [Column("id_travail")]
     public int IdTravail { get; set; }
+    [ForeignKey("IdTravail")]
+    public Travail? Travail { get; set;}
     [Column("id_prestation")]
     public int IdPrestation { get; set; }
     [JsonIgnore]

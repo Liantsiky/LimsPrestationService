@@ -28,13 +28,29 @@ public class PrestationService : IPrestationService
         this.pdfService = pdfService;
     }
 
-    public async Task<Prestation> GetPrestation(int id)
+    public async Task<Prestation> TransmissionPrestation(int idPrestation)
     {
         Prestation? prestation = await _dbContext.Prestations
-            .Where(p => p.IdPrestation == id)
+            .Where(p => p.IdPrestation == idPrestation)
             .Include(p => p.EtatPrestation)
             .Include(p => p.Client)
             .Include(p => p.PrestationDetails)
+            .FirstOrDefaultAsync();
+        prestation.IdEtatPrestation = 4;
+        _dbContext.Prestations.Update(prestation);
+        await _dbContext.SaveChangesAsync();
+        return await this.GetPrestation(prestation.IdPrestation);
+    }
+
+    public async Task<Prestation> GetPrestation(int idPrestation)
+    {
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == idPrestation)
+            .Include(p => p.EtatPrestation)
+            .Include(p => p.Client)
+            .Include(p => p.PrestationDetails)
+            .ThenInclude(pd => pd.Travail)
+            .ThenInclude(t => t.AvanceeTravail)
             .FirstOrDefaultAsync();
         if(prestation == null)
         {
@@ -165,7 +181,7 @@ public class PrestationService : IPrestationService
             .Include(p => p.PrestationDetails)
             .ThenInclude(pd => pd.Echantillon)
             .FirstOrDefaultAsync();
-        if(prestation == null)
+        if (prestation == null)
         {
             throw new Exception("Cet état de décompte n'existe pas");
         }
@@ -174,4 +190,57 @@ public class PrestationService : IPrestationService
 
         return pdfService.GeneratePdf(content);
     }
+
+    public async Task<Prestation> UpdateTravailAndCheck(int idTravail, int idPrestation)
+    {
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == idPrestation)
+            .Include(p => p.EtatPrestation)
+            .Include(p => p.Client)
+            .Include(p => p.PrestationDetails)
+            .FirstOrDefaultAsync();
+        Travail travail = await _travailService.ProgressionTravail(idTravail);
+        Boolean isFinish = await this.IsFinished(idPrestation);
+        Console.WriteLine("is Finish 1.0 :" + isFinish);
+        if (isFinish == true)
+        {
+            prestation.IdEtatPrestation = 5;
+            _dbContext.Prestations.Update(prestation);
+            await _dbContext.SaveChangesAsync();
+        }
+        return prestation;
+    }
+    public async Task<Boolean> IsFinished(int idPrestation)
+    {
+        Boolean isFinish = true;
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == idPrestation)
+            .Include(p => p.PrestationDetails)
+            .ThenInclude(pd => pd.Travail)
+            .ThenInclude(t => t.AvanceeTravail)
+            .FirstOrDefaultAsync();
+        foreach (VPrestationDetails travaux in prestation.PrestationDetails)
+        {
+            if (travaux?.Travail?.AvanceeTravail?.IdAvanceeTravail == 1)
+            {
+                isFinish = false;
+                break;
+            }
+        }
+        return isFinish;
+    }
+    // public async Task<List<Travail>> GetTotalTravauxPrestation(int idPrestation)
+    // {
+    //     List<Travail> travauxPrestation = new List<Travail>();
+    //     Prestation? prestation = await _dbContext.Prestations
+    //         .Where(p => p.IdPrestation == idPrestation)
+    //         .Include(p => p.PrestationDetails)
+    //         .ThenInclude(pd => pd.Travail)
+    //         .FirstOrDefaultAsync();
+    //     foreach (VPrestationDetails prestationDetails in prestation.PrestationDetails)
+    //     {
+    //         travauxPrestation.Add(prestationDetails.Travail);
+    //     }
+    //     return travauxPrestation;
+    // } 
 }
