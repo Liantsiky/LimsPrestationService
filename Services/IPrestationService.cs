@@ -12,5 +12,6 @@ public interface IPrestationService
     Task<byte[]> FicheTravailToPdf(int id);
     Task<Prestation> TransmissionPrestation(int id);
     Task<Prestation> UpdateTravailAndCheck(int idTravail, int idPrestation);
+    Task<Prestation> LivraisonPrestation(int idPrestation);
     
 }
