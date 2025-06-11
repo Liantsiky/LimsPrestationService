@@ -41,6 +41,20 @@ public class PrestationService : IPrestationService
         await _dbContext.SaveChangesAsync();
         return await this.GetPrestation(prestation.IdPrestation);
     }
+    public async Task<Prestation> LivraisonPrestation(int idPrestation)
+    {
+        Prestation? prestation = await _dbContext.Prestations
+            .Where(p => p.IdPrestation == idPrestation)
+            .Include(p => p.EtatPrestation)
+            .Include(p => p.Client)
+            .Include(p => p.PrestationDetails)
+            .FirstOrDefaultAsync();
+        prestation.IdEtatPrestation = 6;
+        prestation.DateCloture = DateOnly.FromDateTime(DateTime.Now);
+        _dbContext.Prestations.Update(prestation);
+        await _dbContext.SaveChangesAsync();
+        return await this.GetPrestation(prestation.IdPrestation);
+    }
 
     public async Task<Prestation> GetPrestation(int idPrestation)
     {
@@ -229,18 +243,5 @@ public class PrestationService : IPrestationService
         }
         return isFinish;
     }
-    // public async Task<List<Travail>> GetTotalTravauxPrestation(int idPrestation)
-    // {
-    //     List<Travail> travauxPrestation = new List<Travail>();
-    //     Prestation? prestation = await _dbContext.Prestations
-    //         .Where(p => p.IdPrestation == idPrestation)
-    //         .Include(p => p.PrestationDetails)
-    //         .ThenInclude(pd => pd.Travail)
-    //         .FirstOrDefaultAsync();
-    //     foreach (VPrestationDetails prestationDetails in prestation.PrestationDetails)
-    //     {
-    //         travauxPrestation.Add(prestationDetails.Travail);
-    //     }
-    //     return travauxPrestation;
-    // } 
+    
 }

@@ -22,7 +22,7 @@ public class EtatDecompte
     [Column("total_montant")]
     public decimal TotalMontant { get; set; } = 0;
     [Column("remise")]
-    public required double Remise { get; set; }
+    public required double Remise { get; set; } = 0;
     [Column("total_montant_remise")]
     public decimal TotalMontantRemise { get; set; } = 0;
 

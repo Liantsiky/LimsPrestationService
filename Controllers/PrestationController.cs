@@ -4,6 +4,7 @@ using LimsPrestationService.Services;
 using LimsUtils.Api;
 using LimsUtils.Utility;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace LimsPrestationService.Controllers;
 
@@ -28,6 +29,20 @@ public class PrestationController : Controller
                 ViewBag = null,
                 IsSuccess = true,
                 Message = "Prestation transmis avec succes.",
+                StatusCode = 200
+            });
+    }
+    [HttpPut("livraison/{idPrestation}")]
+    public async Task<ActionResult<ApiResponse>> LivraisonPrestation(int idPrestation)
+    {
+        Prestation prestation = _prestationService.LivraisonPrestation(idPrestation).Result;
+        return Ok(
+            new ApiResponse
+            {
+                Data = prestation,
+                ViewBag = null,
+                IsSuccess = true,
+                Message = "Prestation livree avec succes.",
                 StatusCode = 200
             });
     }
@@ -89,6 +104,7 @@ public class PrestationController : Controller
         try
         {
             Prestation result = _prestationService.CreatePrestation(prestationDto);
+            Console.WriteLine("hhhh:" + JsonSerializer.Serialize(prestationDto));
             return Ok(
                 new ApiResponse
                 {
