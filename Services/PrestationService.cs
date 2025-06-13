@@ -79,7 +79,7 @@ public class PrestationService : IPrestationService
         var query =  _dbContext.VPrestationEtatDecomptes.AsQueryable();
         if(!string.IsNullOrEmpty(sorter.ReferenceFicheTravail))
         {
-            query = query.Where(p => p.Reference == sorter.ReferenceFicheTravail);
+            query = query.Where(p => p.Reference.Contains(sorter.ReferenceFicheTravail));
         }
         if(sorter.IdEtatPrestation != null)
         {
@@ -87,6 +87,7 @@ public class PrestationService : IPrestationService
         }
         VPrestationEtatDecompte[] prestations = await query
         .Where(p => p.DatePrestation.Year == sorter.AnneeExercice)
+        .OrderByDescending(p => p.IdPrestation)
         .ToArrayAsync();
 
         return prestations;
@@ -121,7 +122,6 @@ public class PrestationService : IPrestationService
                
 
                 _dbContext.SaveChanges();
-                
 
             }
                
