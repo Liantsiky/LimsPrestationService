@@ -32,6 +32,8 @@ public class Client
     public required int IsInterne { get; set; }
     [Column("ref_contrat")]
     public string? RefContrat { get; set; }
-    [Column("nifstat")]
-    public string? NifStat { get; set; }
+    [Column("nif")]
+    public string? Nif { get; set; }
+    [Column("stat")]
+    public string? Stat { get; set; }
 }
