@@ -28,7 +28,7 @@ public class Prestation
             .ToArray();
         foreach(VPrestationDetails? echantillon in  echantillons)
         {
-            typeEchantillons += echantillon!.TypeEchantillon!.Designation+", ";
+            typeEchantillons += echantillon!.TypeEchantillon!.Designation+" ("+(echantillon?.Echantillon?.Preleveur?.Designation ?? "")+"), ";
             provenances += echantillon!.Echantillon!.Provenance+", ";
         }
         result = result.Replace("#TypeEchantilon#", typeEchantillons.Substring(0, typeEchantillons.Length - 2));

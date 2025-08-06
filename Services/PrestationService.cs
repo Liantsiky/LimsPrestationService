@@ -193,7 +193,8 @@ public class PrestationService : IPrestationService
             .Include(p => p.PrestationDetails)
             .ThenInclude(pd => pd.TypeEchantillon)
             .Include(p => p.PrestationDetails)
-            .ThenInclude(pd => pd.Echantillon)
+                .ThenInclude(pd => pd.Echantillon)
+                    .ThenInclude(e => e.Preleveur)
             .FirstOrDefaultAsync();
         if (prestation == null)
         {
