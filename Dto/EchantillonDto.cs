@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using LimsPrestationService.Models;
 
 namespace LimsPrestationService.Dto;
 
@@ -15,5 +16,9 @@ public class EchantillonDto
     [JsonPropertyName("idTypeEchantillon")]
     public int IdTypeEchantillon { get; set; }
     [JsonPropertyName("typeTravaux")]
-    public required ICollection<TypeTravauxDto> TypeTravaux { get; set;}
+    public required ICollection<TypeTravauxDto> TypeTravaux { get; set; }
+    [JsonPropertyName("idPreleveur")]
+    public int? IdPreleveur { get; set; }
+    [JsonPropertyName("preleveur")]
+    public Preleveur? Preleveur { get; set; }
 }

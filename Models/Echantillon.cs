@@ -28,7 +28,11 @@ public class Echantillon
     [Column("provenance")]
     public string? Provenance { get; set; }
     [Column("date_prelevement")]
-    public DateOnly? DatePrelevement { get; set; } 
+    public DateOnly? DatePrelevement { get; set; }
+    [Column("id_preleveur")]
+    public int? IdPreleveur { get; set; }
+    [ForeignKey("IdPreleveur")]
+    public Preleveur? Preleveur { get; set; }
     public ICollection<Travail> Travails { get; set; } = new List<Travail>();
 
     // For details Echantillon

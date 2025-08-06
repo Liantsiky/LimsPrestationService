@@ -8,14 +8,14 @@ namespace LimsPrestationService.Data;
 public class PrestationServiceContext : DbContext
 {
     public PrestationServiceContext(DbContextOptions<PrestationServiceContext> options) : base(options)
-    {}
+    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Client>()
             .HasIndex(c => new { c.Cin, c.Contact, c.Email, c.Passeport })
             .IsUnique(true);
-        
+
         modelBuilder.Entity<VPrestationEtatDecompte>().ToView("v_prestation_etat_decompte");
         modelBuilder.Entity<VPrestationDetails>().ToView("v_prestation_details");
         modelBuilder.Entity<VDetailsEtatDecompte>().ToView("v_details_etat_decompte");
@@ -46,8 +46,9 @@ public class PrestationServiceContext : DbContext
     public DbSet<Echantillon> Echantillons { get; set; }
     public DbSet<FicheTravailSequence> FicheTravailSequences { get; set; }
     public DbSet<Travail> Travails { get; set; }
-    public DbSet<EtatDecompte> EtatDecomptes {get; set;}
+    public DbSet<EtatDecompte> EtatDecomptes { get; set; }
 
     public DbSet<ChiffreAffaire> ChiffreAffaires { get; set; }
     public DbSet<ChiffreAffaireInterneExterne> ChiffreAffaireInterneExternes { get; set; }
+    public DbSet<Preleveur> Preleveurs { get; set; }
 }
