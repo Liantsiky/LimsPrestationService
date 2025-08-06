@@ -3,7 +3,9 @@ using LimsPrestationService.Services;
 using LimsUtils.Api;
 using Microsoft.AspNetCore.Mvc;
 
-public class PreleveurController : ControllerBase
+[ApiController]
+[Route("api/preleveur")]
+public class PreleveurController : Controller
 {
     private readonly IPreleveurService _preleveurService;
 
@@ -28,7 +30,8 @@ public class PreleveurController : ControllerBase
                     StatusCode = 200
                 }
             );
-        }catch (Exception e)
+        }
+        catch (Exception e)
         {
             return BadRequest(new ApiResponse
             {
