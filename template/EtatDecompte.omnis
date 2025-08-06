@@ -68,7 +68,8 @@
 
     <br><br><br>
 
-    <p>Demandeur</p>
-    <br><br><br><br><br><br><br>
+    <p style="float: right;">Reçu par,</p>
+        <p style="float: left;">Demandeur,</p>
+        <br><br><br><br><br><br><br>
 </body>
 </html>
