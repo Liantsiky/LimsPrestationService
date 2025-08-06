@@ -55,6 +55,26 @@ public class ClientService : IClientService
         return clients;
     }
 
+    public async Task<List<Client>> SearchClient(string searchTerm)
+    {
+        List<Client> result = new List<Client>();
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            throw new ArgumentException("Le terme de recherche ne peut pas être vide");
+        }
+        result = await _dbContext.Clients
+            .Where(c => c.Nom.Contains(searchTerm) || c.Email.Contains(searchTerm) || c.Contact.Contains(searchTerm))
+            .Take(5)
+            .ToListAsync();
+
+        if(result == null || result.Count == 0)
+        {
+            throw new ArgumentException("Aucun client trouvé avec ce terme de recherche");
+        }
+
+        return result;
+    }
+
     public Task<Client> UpdateClient(int id, Client client)
     {
         if(id!=client.IdClient)

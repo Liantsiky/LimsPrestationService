@@ -19,7 +19,7 @@ public class Prestation
             .Replace("#Email#", Client?.Email)
             .Replace("#cin#", Client?.Cin)
             .Replace("#Fax#", Client?.Fax)
-            .Replace("#NifStat#", Client?.NifStat);
+            .Replace("#NifStat#", Client?.Nif ?? Client?.Stat ?? "");
         string typeEchantillons= string.Empty;
         string provenances = string.Empty;
         VPrestationDetails?[] echantillons = PrestationDetails
@@ -63,7 +63,7 @@ public class Prestation
 
         if(string.IsNullOrEmpty(Client?.Cin))
         {
-            cin = Client?.NifStat ?? "";
+            cin = Client?.Nif ?? Client?.Stat ?? "";
         }
         result = result.Replace("#Cin#", cin);
 
