@@ -31,7 +31,8 @@ public class EchantillonService : IEchantillonService
             Provenance = echantillonDto.Provenance,
             DatePrelevement = echantillonDto.DatePrelevement,
             IdTypeEchantillon = echantillonDto.IdTypeEchantillon,
-            IdPrestation = idPrestation
+            IdPrestation = idPrestation,
+            IdPreleveur = echantillonDto.IdPreleveur,
         };
         return echantillon;
     }
