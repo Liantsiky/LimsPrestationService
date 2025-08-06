@@ -8,4 +8,5 @@ public interface IClientService
     Task<Client> GetClient(int id);
     Task<Client> UpdateClient(int id, Client client);
     Task<Client> CreateClient(Client client);
+    Task<List<Client>> SearchClient(string searchTerm);
 }

@@ -63,7 +63,8 @@ public class ClientController : Controller
                     StatusCode = 201
                 }
             );
-        }catch(Exception e)
+        }
+        catch (Exception e)
         {
             return BadRequest(new ApiResponse
             {
@@ -90,5 +91,35 @@ public class ClientController : Controller
                 StatusCode = 200
             }
         );
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<ApiResponse>> SearchClient([FromQuery] string searchTerm)
+    {
+        try
+        {
+            List<Client> result = await _clientService.SearchClient(searchTerm);
+            return Ok(
+                new ApiResponse
+                {
+                    Data = result,
+                    ViewBag = null,
+                    IsSuccess = true,
+                    Message = "Client found successfully.",
+                    StatusCode = 200
+                }
+            );
+        }
+        catch (Exception e)
+        {
+            return NotFound(new ApiResponse
+            {
+                Data = null,
+                ViewBag = null,
+                IsSuccess = false,
+                Message = e.Message,
+                StatusCode = 404
+            });
+        }
     }
 }
